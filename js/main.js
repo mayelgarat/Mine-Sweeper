@@ -37,6 +37,7 @@ function initGame() {
     gMines = gLevel.MINES;
     gGame.secsPassed = (gGame.isOn) ? timer() : ''
     gBoard = buildBoard(gSize);
+    addMines();
     renderBoard(gBoard);
     countLives = 3;
     elLives.innerText = '❤ ❤ ❤'
@@ -69,20 +70,23 @@ function buildBoard(gSize) {
                 isMarked: false
             }
 
-            if (i == 1 && j == 2 || i == 3 && j == 2) {
-                cell.isMine = true;
-            }
-            // if (j > 0 && j < gMines) {
-
-            // }
             board[i][j] = cell;
         }
     }
     return board;
 }
 
-var posMine = drawNum();
-console.log('posMine', posMine);
+function addMine() {
+    var posMine = drawNum();
+    gBoard[posMine.i][posMine.j].isMine = true;
+}
+
+function addMines() {
+    for (var i = 0; i < gMines; i++) {
+        addMine();
+    }
+}
+
 
 function setMinesNegsCount(cellI, cellJ, board) {
     gMinesCount = 0;
@@ -191,12 +195,10 @@ function cellMarked(elCell, i, j) {
 
 function checkGameOver() {
     if (countLives === 0) {
-
         gameOver();
         return;
     }
-    console.log('gMines', gMines);
-    console.log('gLevel', gLevel);
+
     console.log('gGame.shownCount', gGame.shownCount);
     if (gGame.markedCount === gMines && gGame.shownCount === gLevel.SIZE ** 2) {
         console.log('victory');
@@ -239,19 +241,13 @@ function drawNum() {
     return pos
 }
 
-function getRandomEmptyCell(gBoard) {
+function getRandomEmptyCell() {
     var emptyCells = [];
-    for (var i = 0; i < gBoard.length; i++) {
-        console.log('fisr for');
-        console.log('fisr for');
-        console.log('fisr for');
-        for (var j = 0; j < gBoard.length; j++) {
-            if (gBoard[i][j].isMine !== MINE) {
-                emptyCells.push({ i, j });
-            }
+    for (var i = 0; i < gLevel.SIZE; i++) {
+        for (var j = 0; j < gLevel.SIZE; j++) {
+            emptyCells.push({ i: i, j: j })
         }
     }
-    console.log('emptyCells', emptyCells);
     return emptyCells;
 }
 

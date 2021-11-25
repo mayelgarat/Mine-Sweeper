@@ -9,6 +9,8 @@ body{
 h1{
     font-family: cursive;
     color: rgb(108, 74, 74);
+    margin-block-start: 0px;
+    margin-block-end: -13px;
 }
 
 
@@ -17,17 +19,23 @@ h2{
   color: rgb(108, 74, 74);
   font-size: 20px;
   font-family: cursive;
+  margin-block-end: 11px;
 }
 
+p{
+  margin-block-start: 2px;
+  margin-block-end: 2px;
 
+}
 
 p span{
-
     color: rgb(200, 149, 149);
     font-size: 39px;
 }
 
 table{
+ 
+
   margin-top: 2px;
   margin-left: auto;
   margin-right: auto;
@@ -67,13 +75,14 @@ td {
     color: white;
     text-align: center;
     font-family: cursive;
+    height: 23px;
     
   }
   
   div{
-    height: 46px;
+    height: 50px;
   }
-  .level, .timer{
+  .level, .timer, .safe-click{
     background-color: rgb(108, 74, 74);
     color: rgb(237, 237, 237);
     cursor: pointer;
@@ -81,6 +90,8 @@ td {
     height: 25px;
     width: 83px;
     margin-top: 5px;
+    font-size: 12px;
+    border-radius: 5px;
     font-family: cursive;
     box-shadow: 2px 2px 6px rgb(108, 74, 74);
   }
@@ -91,12 +102,38 @@ td {
     font-size: 12px;
 }
     .reset{
-  
         border: none;
         background-color: rgb(237, 237, 237);
         cursor: pointer;
         font-size: 30px;
-        margin-bottom: 5px;
-       
-  
+    }
+
+    .safe-click{
+      margin-top: 11px;
+      margin-left: 5px;
+      background-color: rgb(200, 149, 149);
+      width: 135px;
+     
+    }
+
+
+    .modal{    
+position:absolute;
+      height: 50px;
+      width: 283px;
+      font-size: 20px;
+      font-family:cursive; 
+      color:rgb(108, 74, 74);
+    left: auto;
+     right: auto;
+     top: auto;
+
+    } 
+
+    .modal span{
+      text-align: center;
+    }
+
+    .safe{
+      background-color: rgb(200, 149, 149);
     }

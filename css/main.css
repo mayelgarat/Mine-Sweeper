@@ -101,7 +101,7 @@ td {
     width: 95px;
     font-size: 12px;
 }
-    .reset{
+    .reset-btn{
         border: none;
         background-color: rgb(237, 237, 237);
         cursor: pointer;
@@ -118,13 +118,14 @@ td {
 
 
     .modal{    
-position:absolute;
+      position:absolute;
+      bottom: 70%;
       height: 50px;
       width: 283px;
       font-size: 20px;
       font-family:cursive; 
       color:rgb(108, 74, 74);
-    left: auto;
+    left: 7%;
      right: auto;
      top: auto;
 

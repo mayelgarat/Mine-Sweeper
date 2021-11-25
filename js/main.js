@@ -6,12 +6,13 @@ window.addEventListener("contextmenu", e => e.preventDefault());
 var gGame;
 var countLives;
 var gMinesCount;
+var gLoseCount;
 var gLevel;
 var gSize = 4;
 var mines = 2;
 var gMines;
 var gElTable;
-var gElSmiley;
+var gElSmiley = document.querySelector('.reset-btn');
 var gStart;
 var countChecked;
 var gSafeClickCount;
@@ -19,6 +20,7 @@ var gIntervalId;
 var elLives = document.querySelector(`p span`);
 var elTimer = document.querySelector('.time span');
 var elModal = document.querySelector('.modal span');
+
 
 
 gLevel = {
@@ -40,7 +42,7 @@ function initGame() {
     clearInterval(gIntervalId);
     countChecked = 0;
     gElTable = document.querySelector('.board');
-    gElSmiley = document.querySelector('.reset');
+    gElSmiley.innerText = '😀'
     gSize = gLevel.SIZE;
     gMines = gLevel.MINES;
     gGame.secsPassed = (gGame.isOn) ? timer() : ''
@@ -49,8 +51,9 @@ function initGame() {
     renderBoard(gBoard);
     countLives = 3;
     elLives.innerText = '❤ ❤ ❤'
-    gGame.shownCount = 1;
+    gGame.shownCount = 0;
     gGame.markedCount = 0;
+    gLoseCount = 0;
     renderSafeClick();
 }
 
@@ -76,7 +79,6 @@ function buildBoard(gSize) {
                 isMine: false,
                 isMarked: false
             }
-
             board[i][j] = cell;
         }
     }
@@ -139,24 +141,24 @@ function cellClicked(ev, elCell, i, j) {
         if (gGame.isOn) {
             if (gBoard[i][j].isMine) {
                 countLives--;
+                gLoseCount++
                 elCell.innerText = MINE;
-                gElSmiley.innerText = ''
-                console.log('gElSmiley' ,gElSmiley);
+                gElSmiley.innerText = '😰'
+                console.log('gElSmiley', gElSmiley);
                 if (countLives == 0) revelMine();
                 setLives(countLives);
             } else if (gBoard[i][j].minesAroundCount === 0) {
-                elCell.innerText = ' ';
+                // elCell.innerText = ' ';
                 renderNegs(gBoard, i, j);
             } else if (gBoard[i][j].minesAroundCount > 0) {
                 elCell.innerText = gBoard[i][j].minesAroundCount;
                 gBoard[i][j].isShown = true;
                 gGame.shownCount++
             }
-            checkGameOver();
             gBoard[i][j].isShown = true;
-            gElSmiley.innerText = '🙂'
+            // gElSmiley.innerText = '🙂'
             elCell.classList.add('checked');
-            countChecked++
+            checkGameOver();
         }
     }
 }
@@ -168,7 +170,7 @@ function renderNegs(board, idx, jdx) {
         if (i < 0 || i > board.length - 1) continue;
         for (var j = jdx - 1; j <= jdx + 1; j++) {
             if (j < 0 || j > board.length - 1) continue;
-            if (i === idx && j === jdx) continue;
+            // if (i === idx && j === jdx) continue;
             var elCellNeg = document.querySelector(`.board .cell${i}-${j}`);
             var negsCount = setMinesNegsCount(i, j, gBoard)
             elCellNeg.innerText = (negsCount !== 0) ? negsCount : ' ';
@@ -203,7 +205,7 @@ function safeClick() {
     elSafeCell.classList.add('safe');
     setTimeout(function () {
         elSafeCell.classList.remove('safe');
-    }, 1500)
+    }, 500)
 }
 
 
@@ -235,24 +237,28 @@ function cellMarked(elCell, i, j) {
     elCell.innerText = (gBoard[i][j].isMarked) ? FLAG : ' ';
     elCell.classList.toggle('checked');
     gBoard[i][j].isShown = (!gBoard[i][j].isShown);
-    if (gBoard[i][j].isShown) gGame.markedCount++
+    if (gBoard[i][j].isMarked) {
+        gGame.markedCount++
+        gGame.shownCount++
+        checkGameOver()
+    }
 }
 
 
 function checkGameOver() {
-    if (countLives === 0) {
+    if (countLives === 0 || gLoseCount === gMines) {
         elModal.innerText = 'You Lost... Maybe Next Time 💔'
         elModal.style.display = 'block';
         gameOver();
         return;
     }
-    console.log('gGame.shownCount', gGame.shownCount);
-    if ((gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINE && gGame.markedCount === gMines) || (
-        countChecked === gLevel.SIZE ** 2)) {
-        console.log('victory');
-        elModal.innerText = 'You Win! Congratulation 💥'
-        elModal.style.display = 'block';
 
+    console.log('gGame.shownCount', gGame.shownCount);
+    console.log('gGame.markedCount', gGame.markedCount);
+    if ((gGame.shownCount === gLevel.SIZE ** 2 && gGame.markedCount === gMines)) {
+        elModal.innerText = 'You Win! Congratulation 💥'
+        gElSmiley.innerText = '😎'
+        elModal.style.display = 'block';
         gameOver();
         return;
     }

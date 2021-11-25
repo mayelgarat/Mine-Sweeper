@@ -54,7 +54,6 @@ function initGame() {
     renderSafeClick();
 }
 
-
 function setLevel(level) {
     gLevel.SIZE = level;
     initGame()
@@ -65,7 +64,6 @@ function setMines(nimes) {
     gLevel.MINES = nimes;
     initGame()
 }
-
 
 function buildBoard(gSize) {
     var board = [];
@@ -96,7 +94,6 @@ function addMines() {
     }
 }
 
-
 function setMinesNegsCount(cellI, cellJ, board) {
     gMinesCount = 0;
     for (var i = cellI - 1; i <= cellI + 1; i++) {
@@ -110,7 +107,6 @@ function setMinesNegsCount(cellI, cellJ, board) {
     }
     return gMinesCount;
 }
-
 
 function renderBoard(board) {
     var str = `<tbody>`;
@@ -128,7 +124,6 @@ function renderBoard(board) {
 
 
 function cellClicked(ev, elCell, i, j) {
-
     gBoard[i][j].minesAroundCount = setMinesNegsCount(i, j, gBoard)
     if (ev.which === 3) {
         cellMarked(elCell, i, j)
@@ -145,15 +140,13 @@ function cellClicked(ev, elCell, i, j) {
             if (gBoard[i][j].isMine) {
                 countLives--;
                 elCell.innerText = MINE;
-                gElSmiley.innerText = '😰'
-                if(countLives==0) revelMine();
+                gElSmiley.innerText = ''
+                console.log('gElSmiley' ,gElSmiley);
+                if (countLives == 0) revelMine();
                 setLives(countLives);
-
             } else if (gBoard[i][j].minesAroundCount === 0) {
                 elCell.innerText = ' ';
                 renderNegs(gBoard, i, j);
-
-
             } else if (gBoard[i][j].minesAroundCount > 0) {
                 elCell.innerText = gBoard[i][j].minesAroundCount;
                 gBoard[i][j].isShown = true;
@@ -164,7 +157,6 @@ function cellClicked(ev, elCell, i, j) {
             gElSmiley.innerText = '🙂'
             elCell.classList.add('checked');
             countChecked++
-            console.log('countChecked', countChecked);
         }
     }
 }
@@ -197,7 +189,6 @@ function renderSafeClick() {
     }
     if (gSafeClickCount < 0) {
         var elSafeCell = document.querySelector(`.board .cell${randIdx.i}-${randIdx.j}`);
-        console.log('elSafeCell', elSafeCell);
         elSafeCell.classList.remove('safe');
     }
     elDivBtn.innerHTML = str;
@@ -208,9 +199,7 @@ function safeClick() {
     gSafeClickCount--;
     renderSafeClick();
     var randIdx = drawNum();
-    console.log('randIdx', randIdx);
     var elSafeCell = document.querySelector(`.board .cell${randIdx.i}-${randIdx.j}`);
-    console.log('elSafeCell', elSafeCell);
     elSafeCell.classList.add('safe');
     setTimeout(function () {
         elSafeCell.classList.remove('safe');
@@ -303,9 +292,8 @@ function getRandomEmptyCell() {
     var emptyCells = [];
     for (var i = 0; i < gLevel.SIZE; i++) {
         for (var j = 0; j < gLevel.SIZE; j++) {
-            if (!gBoard[i][j].isShown) {
+            if (!gBoard[i][j].isMine && !gBoard[i][j].isShown) {
                 emptyCells.push({ i: i, j: j })
-
             }
         }
     }

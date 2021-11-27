@@ -1,140 +1,143 @@
-
-
-body{
-    background-color: rgb(237, 237, 237);
-    text-align: center;
+body {
+  background-color: rgb(237, 237, 237);
+  text-align: center;
 }
 
 
-h1{
-    font-family: cursive;
-    color: rgb(108, 74, 74);
-    margin-block-start: 0px;
-    margin-block-end: -13px;
+h1 {
+  font-family: cursive;
+  color: rgb(108, 74, 74);
+  margin-block-start: 0px;
+  margin-block-end: -13px;
 }
 
 
 
-h2{
+h2 {
   color: rgb(108, 74, 74);
   font-size: 20px;
   font-family: cursive;
   margin-block-end: 11px;
 }
 
-p{
+p {
   margin-block-start: 2px;
   margin-block-end: 2px;
 
 }
 
-p span{
-    color: rgb(200, 149, 149);
-    font-size: 39px;
+p span {
+  color: rgb(200, 149, 149);
+  font-size: 39px;
 }
 
-table{
- 
+table {
+
 
   margin-top: 2px;
   margin-left: auto;
   margin-right: auto;
   position: static;
 }
+
 td {
-    width: 35px;
-    height: 25px;
-    border: 1px solid #CCC;
-    padding: 10px 5px 5px 5px;
-  
-    background-color: #EEE;
-  
-    font-size: 16px;
-    text-align: center;
-    box-shadow: inset 5px 5px 10px #FFF, inset -3px -3px 5px #777;
-    
-    cursor: pointer;
-    transition-property: background-color, box-shadow;
-    transition-duration: 1s;
-    transition-timing-function: ease-out;
-  }
+  width: 35px;
+  height: 25px;
+  border: 1px solid #CCC;
+  padding: 10px 5px 5px 5px;
 
-  .checked{
-    background-color: #DDD;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-  
-  .footer{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: black;
-    color: white;
-    text-align: center;
-    font-family: cursive;
-    height: 23px;
-    
-  }
-  
-  div{
-    height: 50px;
-  }
-  .level, .timer, .safe-click{
-    background-color: rgb(108, 74, 74);
-    color: rgb(237, 237, 237);
-    cursor: pointer;
-    border: none;
-    height: 25px;
-    width: 83px;
-    margin-top: 5px;
-    font-size: 12px;
-    border-radius: 5px;
-    font-family: cursive;
-    box-shadow: 2px 2px 6px rgb(108, 74, 74);
-  }
-  
-  .time{
+  background-color: #EEE;
 
-    width: 95px;
-    font-size: 12px;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: inset 5px 5px 10px #FFF, inset -3px -3px 5px #777;
+
+  cursor: pointer;
+  transition-property: background-color, box-shadow;
+  transition-duration: 1s;
+  transition-timing-function: ease-out;
 }
-    .reset-btn{
-        border: none;
-        background-color: rgb(237, 237, 237);
-        cursor: pointer;
-        font-size: 30px;
-    }
 
-    .safe-click{
-      margin-top: 11px;
-      margin-left: 5px;
-      background-color: rgb(200, 149, 149);
-      width: 135px;
-     
-    }
+.checked {
+  background-color: #DDD;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: cursive;
+  height: 23px;
+
+}
+
+div {
+  height: 50px;
+}
+
+.level,
+.timer,
+.safe-click {
+  background-color: rgb(108, 74, 74);
+  color: rgb(237, 237, 237);
+  cursor: pointer;
+  border: none;
+  height: 25px;
+  width: 83px;
+  margin-top: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  font-family: cursive;
+  box-shadow: 2px 2px 6px rgb(108, 74, 74);
+}
+
+.time {
+
+  width: 100px;
+  font-size: 12px;
+}
+
+.reset-btn {
+  border: none;
+  background-color: rgb(237, 237, 237);
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.safe-click {
+  margin-top: 11px;
+  margin-left: 5px;
+  background-color: rgb(200, 149, 149);
+  width: 135px;
+
+}
 
 
-    .modal{    
-      position:absolute;
-      bottom: 70%;
-      height: 50px;
-      width: 283px;
-      font-size: 20px;
-      font-family:cursive; 
-      color:rgb(108, 74, 74);
-    left: 7%;
-     right: auto;
-     top: auto;
+.modal {
+  position: absolute;
+  bottom: 70%;
+  height: 50px;
+  width: 283px;
+  font-size: 20px;
+  font-family: cursive;
+  color: rgb(108, 74, 74);
+  left: 7%;
+  right: auto;
+  top: auto;
 
-    } 
+}
 
-    .modal span{
-      text-align: center;
-    }
+.modal span {
+  text-align: center;
+}
 
-    .safe{
-      background-color: rgb(200, 149, 149);
-    }
+.safe {
+  background-color: rgb(200, 149, 149);
+}

@@ -127,10 +127,19 @@ function renderBoard(board) {
 
 function cellClicked(ev, elCell, i, j) {
     gBoard[i][j].minesAroundCount = setMinesNegsCount(i, j, gBoard)
-    if (ev.which === 3) {
-        cellMarked(elCell, i, j)
+    if (!gBoard[i][j].isShown || gBoard[i][j].isMine || gBoard[i][j].isMarked) {
+
+
+        if (ev.which === 3) {
+            cellMarked(elCell, i, j)
+        }
+
     }
     if (ev.which === 1) {
+        if (gBoard[i][j].isMarked) {
+            gGame.isMarked--
+            gBoard[i][j].isMarked = !gBoard[i][j].isMarked
+        }
         if (!gGame.isOn) {
             if (gBoard[i][j].isMine) return
             else {
@@ -163,6 +172,7 @@ function cellClicked(ev, elCell, i, j) {
     }
 }
 
+
 function expandShown(board, elCell, idx, jdx) {
 
     if (idx < 0 || jdx < 0 ||
@@ -176,17 +186,18 @@ function expandShown(board, elCell, idx, jdx) {
             if (j < 0 || j > board.length - 1) continue;
             // if (i === idx && j === jdx) continue;
             if (gBoard[i][j].isShown) continue;
-            if (gBoard[i][j].isMine) return
+            if (gBoard[i][j].isMine) continue
             var elCellNeg = document.querySelector(`.board .cell${i}-${j}`);
             var negsCount = setMinesNegsCount(i, j, gBoard)
             elCellNeg.innerText = (negsCount !== 0) ? negsCount : ' ';
             gBoard[i][j].isShown = true;
-            console.log(' gBoard[i][j].isShown ', i, j, gBoard[i][j].isShown);
+            // console.log(' gBoard[i][j].isShown ', i, j, gBoard[i][j].isShown);
             gGame.shownCount++
             elCellNeg.classList.add('checked')
 
         }
-    } expandShown(board, elCellNeg, i, j)
+    }
+    expandShown(board, elCellNeg, i, j)
 }
 
 function renderSafeClick() {
@@ -221,7 +232,6 @@ function revelMine() {
         for (var j = 0; j < gBoard.length; j++) {
             if (gBoard[i][j].isMine) {
                 var elMine = document.querySelector(`.cell${i}-${j}`)
-                console.log('elMine', elMine);
                 elMine.innerText = MINE;
                 elMine.classList.add('checked');
             }
@@ -240,19 +250,26 @@ function reset() {
 function cellMarked(elCell, i, j) {
     window.addEventListener("contextmenu", e => e.preventDefault());
     gBoard[i][j].isMarked = (!gBoard[i][j].isMarked)
-    elCell.innerText = (gBoard[i][j].isMarked) ? FLAG : ' ';
-    elCell.classList.toggle('checked');
     gBoard[i][j].isShown = (!gBoard[i][j].isShown);
-    if (gBoard[i][j].isMarked && !gBoard[i][j].isShown) {
-        gGame.markedCount++
-        gGame.shownCount++
-        checkGameOver()
-    }
-    if (!gBoard[i][j].isMarked) {
-        gGame.markedCount--
-        gGame.shownCount--
 
+    if (gBoard[i][j].isMarked) {
+        elCell.innerText = FLAG;
+        gGame.markedCount++
+
+    } else {
+        elCell.innerText = ' '
+        gGame.markedCount--
+        gGame.shownCount--;
     }
+    if (gBoard[i][j].isMine) {
+        gGame.shownCount = gGame.shownCount;
+    }
+    if (gBoard[i][j].isShown) {
+        gGame.shownCount++
+    }
+    if (elCell.classList.contains('checked')) elCell.classList.remove('checked');
+
+    checkGameOver();
 }
 
 
@@ -263,10 +280,7 @@ function checkGameOver() {
         gameOver();
         return;
     }
-
-    console.log('gGame.shownCount', gGame.shownCount);
-    console.log('gGame.markedCount', gGame.markedCount);
-    if ((gGame.shownCount === gLevel.SIZE ** 2 && gGame.markedCount + (3 - countLives) === gMines)) {
+    if ((gGame.shownCount === gLevel.SIZE ** 2 && gGame.markedCount === gMines)) {
         elModal.innerText = 'You Win! Congratulation 💥'
         gElSmiley.innerText = '😎'
         elModal.style.display = 'block';
@@ -287,13 +301,13 @@ function setLives(countLives) {
     }
     elLives.innerText = str;
 }
+
 function timer() {
     gStart = Date.now();
-    console.log('gStart', gStart);
     gIntervalId = setInterval(function () {
         var miliSecs = Date.now() - gStart
-        elTimer.innerHTML = ((miliSecs) / 1000).toFixed(3)
-    }, 10)
+        elTimer.innerHTML = ((miliSecs) / 1000).toFixed(1)
+    }, 100)
 }
 
 function drawNum() {
@@ -310,13 +324,15 @@ function getRandomEmptyCell() {
     for (var i = 0; i < gLevel.SIZE; i++) {
         for (var j = 0; j < gLevel.SIZE; j++) {
             if (!gBoard[i][j].isMine && !gBoard[i][j].isShown) {
-                emptyCells.push({ i: i, j: j })
+                emptyCells.push({
+                    i: i,
+                    j: j
+                })
             }
         }
     }
     return emptyCells;
 }
-
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
